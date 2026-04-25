@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  /* Linear-inspired color system */
+  --color-skepal-bg: #09090b;
+  --color-skepal-surface: #0f0f11;
+  --color-skepal-elevated: #18181b;
+  --color-skepal-border: #1f1f23;
+  --color-skepal-border-strong: #27272a;
+
+  --color-skepal-text: #fafafa;
+  --color-skepal-text-secondary: #a1a1aa;
+  --color-skepal-text-tertiary: #71717a;
+
+  --color-skepal-accent: #8b5cf6;
+  --color-skepal-accent-hover: #a78bfa;
+}
+
+/* Global styles */
+body {
+  background: #09090b;
+  color: #fafafa;
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove all glow effects - Linear doesn't use them */
+* {
+  box-shadow: none !important;
+}
+
+/* Subtle focus states */
+*:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, opacity, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
