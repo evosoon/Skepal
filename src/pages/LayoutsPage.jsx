@@ -1,19 +1,16 @@
 import { useState } from "react";
 import layoutRegistry from "../lib/layoutRegistry.jsx";
+import PageHeader from "../components/typography/PageHeader";
 
 export default function LayoutsPage() {
   const [selectedLayout, setSelectedLayout] = useState(null);
 
   return (
     <div>
-      <div className="mb-10">
-        <h1 className="inline-block text-[32px] font-semibold bg-gradient-to-r from-white/90 via-white/60 to-white/20 bg-clip-text text-transparent mb-2">
-          Layouts
-        </h1>
-        <p className="text-[15px] text-skepal-text-secondary">
-          Page structures and composition patterns
-        </p>
-      </div>
+      <PageHeader
+        title="Layouts"
+        subtitle="Page structures and composition patterns"
+      />
 
       <div className="grid grid-cols-[220px_1fr] gap-8">
         <aside className="space-y-0.5">

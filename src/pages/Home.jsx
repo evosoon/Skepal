@@ -1,3 +1,5 @@
+import FeatureCard from '../components/cards/FeatureCard'
+
 export default function Home() {
   return (
     <div className="max-w-[880px] mx-auto">
@@ -27,18 +29,12 @@ export default function Home() {
           { label: "Layouts", desc: "Page structures", count: "3" },
           { label: "Palettes", desc: "Color harmonies", count: "4" },
         ].map(({ label, desc, count }) => (
-          <div
+          <FeatureCard
             key={label}
-            className="bg-skepal-surface border border-skepal-border rounded-lg p-6 hover:border-skepal-border-strong transition-colors"
-          >
-            <div className="text-[13px] text-skepal-text-tertiary mb-1">
-              {count} items
-            </div>
-            <div className="text-[15px] font-medium text-skepal-text mb-1">
-              {label}
-            </div>
-            <div className="text-[13px] text-skepal-text-secondary">{desc}</div>
-          </div>
+            title={label}
+            description={desc}
+            meta={`${count} items`}
+          />
         ))}
       </div>
 

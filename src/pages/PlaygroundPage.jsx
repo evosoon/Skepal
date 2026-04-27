@@ -1,5 +1,9 @@
 import { useState } from "react";
 import playgroundRegistry from "../lib/playgroundRegistry";
+import TagBadge from "../components/buttons/TagBadge";
+import InfoCard from "../components/cards/InfoCard";
+import PageHeader from "../components/typography/PageHeader";
+import PreviewCanvas from "../components/layout/PreviewCanvas";
 
 export default function PlaygroundPage() {
   const [selectedId, setSelectedId] = useState(null);
@@ -7,14 +11,10 @@ export default function PlaygroundPage() {
 
   return (
     <div>
-      <div className="mb-10">
-        <h1 className="inline-block text-[32px] font-semibold bg-gradient-to-r from-white/90 via-white/60 to-white/20 bg-clip-text text-transparent mb-2">
-          Playground
-        </h1>
-        <p className="text-[15px] text-skepal-text-secondary">
-          Design experiments generated through conversation with Claude Code
-        </p>
-      </div>
+      <PageHeader
+        title="Playground"
+        subtitle="Design experiments generated through conversation with Claude Code"
+      />
 
       {playgroundRegistry.length === 0 ? (
         <div className="bg-skepal-surface border border-skepal-border rounded-lg p-16 text-center">
@@ -50,12 +50,9 @@ export default function PlaygroundPage() {
                 {item.meta.tags?.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {item.meta.tags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10px] px-1.5 py-0.5 bg-skepal-bg border border-skepal-border rounded text-skepal-text-tertiary"
-                      >
+                      <TagBadge key={tag} size="small">
                         {tag}
-                      </span>
+                      </TagBadge>
                     ))}
                   </div>
                 )}
@@ -79,34 +76,13 @@ export default function PlaygroundPage() {
                   {selected.meta.style && (
                     <div className="grid grid-cols-3 gap-3 mb-6">
                       {selected.meta.style.mood && (
-                        <div className="bg-skepal-surface border border-skepal-border rounded-lg p-3">
-                          <div className="text-[11px] text-skepal-text-tertiary mb-1">
-                            Mood
-                          </div>
-                          <div className="text-[13px] text-skepal-text">
-                            {selected.meta.style.mood}
-                          </div>
-                        </div>
+                        <InfoCard label="Mood" value={selected.meta.style.mood} />
                       )}
                       {selected.meta.style.audience && (
-                        <div className="bg-skepal-surface border border-skepal-border rounded-lg p-3">
-                          <div className="text-[11px] text-skepal-text-tertiary mb-1">
-                            Audience
-                          </div>
-                          <div className="text-[13px] text-skepal-text">
-                            {selected.meta.style.audience}
-                          </div>
-                        </div>
+                        <InfoCard label="Audience" value={selected.meta.style.audience} />
                       )}
                       {selected.meta.style.useCase && (
-                        <div className="bg-skepal-surface border border-skepal-border rounded-lg p-3">
-                          <div className="text-[11px] text-skepal-text-tertiary mb-1">
-                            Use Case
-                          </div>
-                          <div className="text-[13px] text-skepal-text">
-                            {selected.meta.style.useCase}
-                          </div>
-                        </div>
+                        <InfoCard label="Use Case" value={selected.meta.style.useCase} />
                       )}
                     </div>
                   )}
@@ -130,9 +106,9 @@ export default function PlaygroundPage() {
                   )}
                 </div>
 
-                <div className="bg-white rounded-lg p-12 border border-gray-200 min-h-[500px] flex items-center justify-center">
+                <PreviewCanvas>
                   <selected.component />
-                </div>
+                </PreviewCanvas>
               </div>
             ) : (
               <div className="h-[400px] flex items-center justify-center">

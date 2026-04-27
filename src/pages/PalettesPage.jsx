@@ -1,24 +1,22 @@
 import paletteRegistry from "../lib/paletteRegistry";
+import PageHeader from "../components/typography/PageHeader";
+import GhostButton from "../components/buttons/GhostButton";
 
 export default function PalettesPage() {
   return (
     <div>
       <div className="mb-10 flex items-start justify-between">
-        <div>
-          <h1 className="inline-block text-[32px] font-semibold bg-gradient-to-r from-white/90 via-white/60 to-white/20 bg-clip-text text-transparent mb-2">
-            Palettes
-          </h1>
-          <p className="text-[15px] text-skepal-text-secondary">
-            Harmonious color schemes for your designs
-          </p>
-        </div>
+        <PageHeader
+          title="Palettes"
+          subtitle="Harmonious color schemes for your designs"
+          className="mb-0"
+        />
         <a
           href="https://huemint.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2 bg-skepal-accent hover:bg-skepal-accent-hover text-white text-[13px] font-medium rounded-md transition-colors"
         >
-          Generate with Huemint
+          <GhostButton>Generate with Huemint</GhostButton>
         </a>
       </div>
 
