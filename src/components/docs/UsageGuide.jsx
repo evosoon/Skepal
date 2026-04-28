@@ -12,9 +12,9 @@ export default function UsageGuide() {
           title: "1. 设计访谈（Design Brief）",
           items: [
             "在 Claude Code 中描述你的设计需求",
-            "Claude 会询问：期望的情绪/感觉、目标受众、参考设计、约束条件",
-            "所有访谈内容会记录到 playground 的 brief 字段",
-            "初始状态设为 draft（草稿）",
+            "简单需求：直接开始，边做边调",
+            "复杂需求：Claude 会通过自然对话了解你的想法（情绪、受众、参考、约束）",
+            "访谈内容记录到 playground 的 brief 字段，初始状态 draft",
           ],
         },
         {
@@ -80,9 +80,9 @@ export default function UsageGuide() {
           title: "1. Design Brief",
           items: [
             "Describe your design needs in Claude Code",
-            "Claude will ask about: desired mood/feeling, target audience, reference designs, constraints",
-            "All interview content is recorded in the playground's brief field",
-            "Initial status set to draft",
+            "Simple requests: start directly, iterate as you go",
+            "Complex requests: Claude will have a natural conversation to understand your vision (mood, audience, references, constraints)",
+            "Interview insights recorded in playground's brief field, initial status: draft",
           ],
         },
         {

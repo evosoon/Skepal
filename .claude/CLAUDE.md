@@ -7,12 +7,23 @@ Skepal (Sketch + Palette) is a design system and component library for exploring
 When working on design-related tasks in this project, follow this 6-phase process:
 
 ### 1. Design Brief
-- Conduct a style interview with the user to capture requirements
-- Ask about desired mood/feeling (playful, professional, minimal, etc.)
-- Identify target audience and use case
-- Gather reference designs or inspirations
-- Document specific constraints (accessibility, brand colors, etc.)
-- Record all interview results in `meta.brief` field
+**Adapt the conversation to the complexity of the request:**
+
+**For simple/clear requests** (e.g., "language toggle", "copy button"):
+- Skip formal interview — the request is already clear
+- Ask 1-2 clarifying questions only if genuinely ambiguous
+- Jump straight to prototyping with sensible defaults
+- Iterate based on feedback
+
+**For complex/vague requests** (e.g., "dashboard layout", "pricing page"):
+- Have a natural conversation to understand needs
+- Ask questions progressively, not all at once
+- Focus on: mood/feeling, audience, references, constraints
+- Record conversation insights in `meta.brief` field
+
+**General principles:**
+- Don't force a formal interview when the request is straightforward
+- Ask questions to resolve ambiguity, not to follow a checklist
 - Set initial `status: "draft"`
 
 ### 2. Color Selection
