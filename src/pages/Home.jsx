@@ -1,4 +1,5 @@
 import FeatureCard from '../components/cards/FeatureCard'
+import UsageGuide from '../components/docs/UsageGuide'
 
 export default function Home() {
   return (
@@ -38,7 +39,7 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="bg-skepal-surface border border-skepal-border rounded-lg p-8">
+      <div className="bg-skepal-surface border border-skepal-border rounded-lg p-8 mb-8">
         <h2 className="text-[15px] font-semibold text-skepal-text mb-6">
           How it works
         </h2>
@@ -60,6 +61,8 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <UsageGuide />
     </div>
   );
 }
