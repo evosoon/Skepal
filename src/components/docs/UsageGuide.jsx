@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function UsageGuide() {
-  const [lang, setLang] = useState("zh");
+  const [lang, setLang] = useState("en");
 
   const content = {
     zh: {
