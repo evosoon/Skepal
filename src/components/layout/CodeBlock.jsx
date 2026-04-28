@@ -1,8 +1,10 @@
+import { useState } from 'react'
+
 export const meta = {
   name: 'Code Block',
-  description: 'Collapsible code display with syntax highlighting',
+  description: 'Collapsible code display with copy button',
   category: 'Layout',
-  tags: ['code', 'details', 'collapsible', 'syntax'],
+  tags: ['code', 'details', 'collapsible', 'copy'],
 
   style: {
     mood: 'technical, minimal',
@@ -24,12 +26,28 @@ export const meta = {
 
 // Main component for actual use
 export default function CodeBlock({ code, title = 'View code', className = '' }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {}
+  }
+
   return (
-    <details className={`bg-skepal-surface border border-skepal-border rounded-lg ${className}`}>
+    <details className={`bg-skepal-surface border border-skepal-border rounded-lg overflow-hidden ${className}`}>
       <summary className="cursor-pointer px-4 py-3 text-[13px] text-skepal-text-secondary hover:text-skepal-text font-medium">
         {title}
       </summary>
-      <div className="px-4 pb-4">
+      <div className="relative px-4 pb-4">
+        <button
+          onClick={handleCopy}
+          className="absolute top-2 right-6 px-2 py-1 rounded-md text-[11px] text-skepal-text-tertiary hover:text-skepal-text bg-skepal-surface border border-skepal-border hover:border-skepal-accent/50 transition-colors"
+        >
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
         <pre className="bg-skepal-bg rounded-md p-4 overflow-x-auto text-[12px] leading-relaxed">
           <code className="text-skepal-text-secondary">{code}</code>
         </pre>
@@ -52,13 +70,31 @@ export function CodeBlockDemo() {
 }
 
 // Source code for display
-export const code = `export default function CodeBlock({ code, title = 'View code', className = '' }) {
+export const code = `import { useState } from 'react'
+
+export default function CodeBlock({ code, title = 'View code', className = '' }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {}
+  }
+
   return (
-    <details className={\`bg-skepal-surface border border-skepal-border rounded-lg \${className}\`}>
+    <details className={\`bg-skepal-surface border border-skepal-border rounded-lg overflow-hidden \${className}\`}>
       <summary className="cursor-pointer px-4 py-3 text-[13px] text-skepal-text-secondary hover:text-skepal-text font-medium">
         {title}
       </summary>
-      <div className="px-4 pb-4">
+      <div className="relative px-4 pb-4">
+        <button
+          onClick={handleCopy}
+          className="absolute top-2 right-6 px-2 py-1 rounded-md text-[11px] ..."
+        >
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
         <pre className="bg-skepal-bg rounded-md p-4 overflow-x-auto text-[12px] leading-relaxed">
           <code className="text-skepal-text-secondary">{code}</code>
         </pre>

@@ -4,6 +4,7 @@ import TagBadge from "../components/buttons/TagBadge";
 import InfoCard from "../components/cards/InfoCard";
 import PageHeader from "../components/typography/PageHeader";
 import PreviewCanvas from "../components/layout/PreviewCanvas";
+import ColorSwatch from "../components/layout/ColorSwatch";
 
 export default function PlaygroundPage() {
   const [selectedId, setSelectedId] = useState(null);
@@ -94,12 +95,7 @@ export default function PlaygroundPage() {
                       </div>
                       <div className="flex gap-2">
                         {selected.meta.palette.colors.map((color, idx) => (
-                          <div
-                            key={idx}
-                            className="h-10 flex-1 rounded-md border border-skepal-border"
-                            style={{ backgroundColor: color }}
-                            title={color}
-                          />
+                          <ColorSwatch key={idx} color={color} />
                         ))}
                       </div>
                     </div>

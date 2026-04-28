@@ -1,6 +1,7 @@
 import paletteRegistry from "../lib/paletteRegistry";
 import PageHeader from "../components/typography/PageHeader";
 import GhostButton from "../components/buttons/GhostButton";
+import ColorSwatch from "../components/layout/ColorSwatch";
 
 export default function PalettesPage() {
   return (
@@ -55,10 +56,7 @@ export default function PalettesPage() {
             <div className="flex gap-2">
               {palette.colors.map((color, idx) => (
                 <div key={idx} className="flex-1">
-                  <div
-                    className="h-20 rounded-md border border-skepal-border"
-                    style={{ backgroundColor: color }}
-                  />
+                  <ColorSwatch color={color} className="w-full h-20" />
                   <p className="text-[11px] text-skepal-text-tertiary mt-2 font-mono text-center">
                     {color}
                   </p>
