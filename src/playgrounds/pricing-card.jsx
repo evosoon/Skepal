@@ -3,6 +3,7 @@ export const meta = {
   description: 'A SaaS pricing card with gradient accent, feature list, and CTA button.',
   date: '2026-04-25',
   tags: ['card', 'pricing', 'saas'],
+  status: 'draft',
   style: {
     mood: 'professional, clean',
     audience: 'SaaS product users',

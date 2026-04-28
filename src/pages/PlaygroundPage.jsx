@@ -1,6 +1,7 @@
 import { useState } from "react";
-import playgroundRegistry from "../lib/playgroundRegistry";
+import playgroundRegistry, { getAllStatuses } from "../lib/playgroundRegistry";
 import TagBadge from "../components/buttons/TagBadge";
+import Dropdown from "../components/buttons/Dropdown";
 import InfoCard from "../components/cards/InfoCard";
 import PageHeader from "../components/typography/PageHeader";
 import PreviewCanvas from "../components/layout/PreviewCanvas";
@@ -8,16 +9,37 @@ import ColorSwatch from "../components/layout/ColorSwatch";
 
 export default function PlaygroundPage() {
   const [selectedId, setSelectedId] = useState(null);
-  const selected = playgroundRegistry.find((p) => p.id === selectedId);
+  const [statusFilter, setStatusFilter] = useState("All");
+
+  const statuses = getAllStatuses();
+
+  const filteredPlaygrounds = statusFilter === "All"
+    ? playgroundRegistry
+    : playgroundRegistry.filter(p => p.meta.status === statusFilter);
+
+  const selected = filteredPlaygrounds.find((p) => p.id === selectedId);
+
+  const getStatusVariant = (status) => {
+    if (status === "final") return "success";
+    if (status === "draft" || status === "iterating") return "accent";
+    return "default";
+  };
 
   return (
     <div>
       <PageHeader
         title="Playground"
         subtitle="Design experiments generated through conversation with Claude Code"
-      />
+      >
+        <Dropdown
+          value={statusFilter}
+          onChange={setStatusFilter}
+          options={statuses}
+          placeholder="All Statuses"
+        />
+      </PageHeader>
 
-      {playgroundRegistry.length === 0 ? (
+      {filteredPlaygrounds.length === 0 ? (
         <div className="bg-skepal-surface border border-skepal-border rounded-lg p-16 text-center">
           <p className="text-[15px] text-skepal-text mb-2">
             No playground experiments yet
@@ -30,7 +52,7 @@ export default function PlaygroundPage() {
       ) : (
         <div className="grid grid-cols-[280px_1fr] gap-8">
           <aside className="space-y-2">
-            {playgroundRegistry.map((item) => (
+            {filteredPlaygrounds.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setSelectedId(item.id)}
@@ -40,8 +62,15 @@ export default function PlaygroundPage() {
                     : "bg-skepal-surface border-skepal-border hover:border-skepal-border-strong"
                 }`}
               >
-                <div className="text-[13px] font-medium text-skepal-text mb-1">
-                  {item.meta.title}
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <div className="text-[13px] font-medium text-skepal-text">
+                    {item.meta.title}
+                  </div>
+                  {item.meta.status && (
+                    <TagBadge size="small" variant={getStatusVariant(item.meta.status)}>
+                      {item.meta.status}
+                    </TagBadge>
+                  )}
                 </div>
                 {item.meta.date && (
                   <div className="text-[11px] text-skepal-text-tertiary mb-2">
@@ -64,14 +93,72 @@ export default function PlaygroundPage() {
           <div>
             {selected ? (
               <div>
+                {/* Status badge and promotion banner */}
                 <div className="mb-6">
-                  <h2 className="text-[20px] font-semibold text-skepal-text mb-2">
-                    {selected.meta.title}
-                  </h2>
+                  <div className="flex items-center gap-2 mb-3">
+                    <h2 className="text-[20px] font-semibold text-skepal-text">
+                      {selected.meta.title}
+                    </h2>
+                    {selected.meta.status && (
+                      <TagBadge variant={getStatusVariant(selected.meta.status)}>
+                        {selected.meta.status}
+                      </TagBadge>
+                    )}
+                  </div>
+
+                  {selected.meta.status === "final" && (
+                    <div className="bg-skepal-success/10 border border-skepal-success/30 rounded-lg px-4 py-3 mb-4">
+                      <p className="text-[13px] text-skepal-success">
+                        This design is ready for promotion — ask Claude to promote it
+                      </p>
+                    </div>
+                  )}
+
                   {selected.meta.description && (
-                    <p className="text-[14px] text-skepal-text-secondary mb-6">
+                    <p className="text-[14px] text-skepal-text-secondary mb-4">
                       {selected.meta.description}
                     </p>
+                  )}
+
+                  {/* Design brief */}
+                  {selected.meta.brief && (
+                    <details className="bg-skepal-surface border border-skepal-border rounded-lg mb-4">
+                      <summary className="cursor-pointer px-4 py-3 text-[13px] text-skepal-text-secondary hover:text-skepal-text font-medium">
+                        Design Brief
+                      </summary>
+                      <div className="px-4 pb-4 space-y-2">
+                        {selected.meta.brief.request && (
+                          <div>
+                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Request</div>
+                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.request}</div>
+                          </div>
+                        )}
+                        {selected.meta.brief.mood && (
+                          <div>
+                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Mood</div>
+                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.mood}</div>
+                          </div>
+                        )}
+                        {selected.meta.brief.audience && (
+                          <div>
+                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Audience</div>
+                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.audience}</div>
+                          </div>
+                        )}
+                        {selected.meta.brief.references && (
+                          <div>
+                            <div className="text-[11px] text-skepal-text-tertiary mb-1">References</div>
+                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.references}</div>
+                          </div>
+                        )}
+                        {selected.meta.brief.constraints && (
+                          <div>
+                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Constraints</div>
+                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.constraints}</div>
+                          </div>
+                        )}
+                      </div>
+                    </details>
                   )}
 
                   {selected.meta.style && (

@@ -4,24 +4,66 @@
 Skepal (Sketch + Palette) is a design system and component library for exploring UI/UX elements, layouts, and color palettes. It serves as a living collection of reusable design patterns.
 
 ## Design Workflow
-When working on design-related tasks in this project, follow this process:
+When working on design-related tasks in this project, follow this 6-phase process:
 
-1. **Style Interview** - Before creating new designs, ask about:
-   - Desired mood/feeling (playful, professional, minimal, etc.)
-   - Target audience and use case
-   - Reference designs or inspirations
-   - Specific constraints (accessibility, brand colors, etc.)
+### 1. Design Brief
+- Conduct a style interview with the user to capture requirements
+- Ask about desired mood/feeling (playful, professional, minimal, etc.)
+- Identify target audience and use case
+- Gather reference designs or inspirations
+- Document specific constraints (accessibility, brand colors, etc.)
+- Record all interview results in `meta.brief` field
+- Set initial `status: "draft"`
 
-2. **Color Selection** - For new color palettes:
-   - Consider using Huemint (https://huemint.com) for harmonious color generation
-   - User can visit the site and provide chosen colors
-   - Or describe the desired palette mood and I'll suggest colors
-   - Save palettes to `src/lib/paletteRegistry.js`
+### 2. Color Selection
+- Consider using Huemint (https://huemint.com) for harmonious color generation
+- User can visit the site and provide chosen colors
+- Or describe the desired palette mood and Claude will suggest colors
+- Document palette in `meta.palette` with source attribution
 
-3. **Playground First** - For complex components/layouts:
-   - Create interactive prototype in `src/playgrounds/` first
-   - Iterate based on feedback
-   - Move finalized version to appropriate registry
+### 3. Prototype
+- Create initial playground file in `src/playgrounds/` with kebab-case naming
+- Use inline hex colors for rapid iteration (will convert to theme tokens on promotion)
+- Include complete meta object with brief, style, palette, tags
+- File auto-registers and displays in Playground page
+- Keep `status: "draft"`
+
+### 4. Iteration
+- User provides feedback in conversation
+- Claude modifies the playground file directly
+- Update `status: "iterating"` during active iteration
+- Iterate until user is satisfied
+
+### 5. Finalization
+- User confirms design is ready
+- Update `status: "final"`
+- Playground page displays promotion banner
+- Design is ready for promotion to permanent registry
+
+### 6. Promotion
+When user requests promotion, choose the appropriate path:
+
+**Component Promotion:**
+- Create new file in `src/components/{category}/{Name}.jsx`
+- Convert inline hex colors to Skepal theme tokens
+- Add configurable props (replace hardcoded values)
+- Export required: `default`, `meta`, `{Name}Demo`, `code`
+- Copy `meta.style` from playground (not full `brief`)
+- Optionally add `promotedFrom: "playground-id"` to meta
+- Auto-registers via glob pattern
+- Update playground: `status: "promoted"`, `promotedTo: { type: "component", path: "..." }`
+
+**Layout Promotion:**
+- Manually add entry to `src/lib/layoutRegistry.jsx`
+- Structure: `{ id, name, component, code }`
+- Update playground: `status: "promoted"`, `promotedTo: { type: "layout", path: "..." }`
+
+**Palette Promotion:**
+- Manually add entry to `src/lib/paletteRegistry.js`
+- Structure: `{ id, name, colors, source }`
+- Update playground: `status: "promoted"`, `promotedTo: { type: "palette", path: "..." }`
+
+Promoted playgrounds remain visible but sort to bottom of list.
 
 ## File Organization
 - `src/components/` - Reusable UI components
