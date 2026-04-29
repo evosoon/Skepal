@@ -1,5 +1,6 @@
 ## 当前任务
-Playground 协作流程基础设施已完成
+Playground
+协作流程基础设施已完成
 
 ## 进度
 - [x] 更新 _convention.js 添加 status/brief/promotedTo 字段
