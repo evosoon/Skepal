@@ -154,6 +154,81 @@ Skepal is designed to work seamlessly with Claude Code. The `.claude/CLAUDE.md` 
 - When to update registries vs. create new files
 - How to structure playground experiments
 
+### Recommended Claude Code Plugins
+
+To maximize your frontend development workflow with Skepal, install these plugins:
+
+#### Essential Plugins
+
+```bash
+# Type checking and IntelliSense for React/TypeScript
+/plugin install typescript-lsp@claude-plugins-official
+
+# Design-to-code workflow
+/plugin install figma@claude-plugins-official
+/plugin install frontend-design@claude-plugins-official
+
+# Deployment and hosting
+/plugin install vercel@claude-plugins-official
+
+# Version control and collaboration
+/plugin install github@claude-plugins-official
+```
+
+**Note**: `typescript-lsp` requires `npm install -g typescript-language-server typescript`
+
+#### Browser Automation & Testing
+
+Skepal already has **Playwright MCP** configured, which enables Claude Code to:
+- Navigate to your dev server and take screenshots
+- Inspect DOM structure and accessibility tree
+- Test interactions (clicks, hovers, form fills)
+- Compare design implementations against mockups
+
+This creates a powerful feedback loop: **code → preview → screenshot → iterate** — Claude can see what it built and refine it based on visual feedback.
+
+#### Additional Plugins by Category
+
+**Git Workflow:**
+- `commit-commands` — Git commit/push/PR workflows
+- `pr-review-toolkit` — Pull request code review
+- `code-review` — General code review capabilities
+
+**Backend & Services:**
+- `firebase` — Firebase Hosting/Auth/Firestore
+- `supabase` — Supabase database/auth/storage
+- `sentry` — Error monitoring and performance tracking
+
+**Project Management:**
+- `linear` — Linear task management
+- `slack` — Slack notifications and collaboration
+- `notion` — Notion documentation
+
+**Learning & Output Styles:**
+- `explanatory-output-style` — Detailed explanations for learning new patterns
+- `learning-output-style` — Interactive learning mode
+
+#### Plugin Management
+
+```bash
+# Reload plugins after installation
+/reload-plugins
+
+# Open plugin manager UI
+/plugin
+
+# Browse official catalog
+# Visit: https://claude.com/plugins
+```
+
+#### Why These Plugins Matter for Skepal
+
+- **typescript-lsp** — Real-time type checking for React components
+- **figma** — Import design tokens and components from Figma files
+- **frontend-design** — Generate aesthetically distinctive UI code (already used in Skepal's workflow)
+- **vercel** — One-command deployment for showcasing your design system
+- **github** — Streamlined PR workflow for component contributions
+
 ## License
 
 MIT

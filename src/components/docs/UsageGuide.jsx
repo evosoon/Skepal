@@ -63,6 +63,54 @@ export default function UsageGuide() {
           ],
         },
       ],
+      plugins: {
+        title: "推荐的 Claude Code 插件",
+        subtitle: "提升前端开发效率的插件组合",
+        essential: {
+          title: "核心插件（必装）",
+          items: [
+            "typescript-lsp — React/TS 实时类型检查和代码诊断",
+            "figma — 从 Figma 设计稿导入组件和 token",
+            "frontend-design — 生成有设计感的 UI 代码（已集成到 Skepal 工作流）",
+            "vercel — 一键部署到 Vercel",
+            "github — GitHub PR 和 Issues 管理",
+          ],
+          note: "typescript-lsp 需要先安装：npm install -g typescript-language-server typescript",
+        },
+        browser: {
+          title: "浏览器自动化与测试",
+          items: [
+            "Playwright MCP — 可以截图、检查 DOM、测试交互",
+            "实现 代码 → 预览 → 截图 → 迭代 的闭环反馈",
+            "Claude 可以看到实际渲染效果并基于视觉反馈优化",
+          ],
+        },
+        additional: {
+          title: "扩展插件",
+          categories: [
+            {
+              name: "Git 工作流",
+              items: ["commit-commands", "pr-review-toolkit", "code-review"],
+            },
+            {
+              name: "后端服务",
+              items: ["firebase", "supabase", "sentry"],
+            },
+            {
+              name: "项目管理",
+              items: ["linear", "slack", "notion"],
+            },
+          ],
+        },
+        commands: {
+          title: "插件管理命令",
+          items: [
+            "/plugin install <插件名>@claude-plugins-official",
+            "/reload-plugins — 重新加载插件",
+            "/plugin — 打开插件管理器",
+          ],
+        },
+      },
       tips: {
         title: "提示",
         items: [
@@ -131,6 +179,54 @@ export default function UsageGuide() {
           ],
         },
       ],
+      plugins: {
+        title: "Recommended Claude Code Plugins",
+        subtitle: "Plugin combinations to boost frontend development",
+        essential: {
+          title: "Essential Plugins",
+          items: [
+            "typescript-lsp — Real-time type checking and diagnostics for React/TS",
+            "figma — Import components and tokens from Figma designs",
+            "frontend-design — Generate aesthetically distinctive UI code (integrated into Skepal workflow)",
+            "vercel — One-command deployment to Vercel",
+            "github — GitHub PR and Issues management",
+          ],
+          note: "typescript-lsp requires: npm install -g typescript-language-server typescript",
+        },
+        browser: {
+          title: "Browser Automation & Testing",
+          items: [
+            "Playwright MCP — Take screenshots, inspect DOM, test interactions",
+            "Enables code → preview → screenshot → iterate feedback loop",
+            "Claude can see actual rendered output and refine based on visual feedback",
+          ],
+        },
+        additional: {
+          title: "Additional Plugins",
+          categories: [
+            {
+              name: "Git Workflow",
+              items: ["commit-commands", "pr-review-toolkit", "code-review"],
+            },
+            {
+              name: "Backend Services",
+              items: ["firebase", "supabase", "sentry"],
+            },
+            {
+              name: "Project Management",
+              items: ["linear", "slack", "notion"],
+            },
+          ],
+        },
+        commands: {
+          title: "Plugin Management Commands",
+          items: [
+            "/plugin install <plugin-name>@claude-plugins-official",
+            "/reload-plugins — Reload plugins",
+            "/plugin — Open plugin manager",
+          ],
+        },
+      },
       tips: {
         title: "Tips",
         items: [
@@ -198,6 +294,90 @@ export default function UsageGuide() {
             </ul>
           </div>
         ))}
+
+        <div className="pt-6 border-t border-skepal-border">
+          <h3 className="text-[14px] font-semibold text-skepal-text mb-2">
+            {t.plugins.title}
+          </h3>
+          <p className="text-[12px] text-skepal-text-secondary mb-4">
+            {t.plugins.subtitle}
+          </p>
+
+          {/* Essential Plugins */}
+          <div className="mb-5">
+            <h4 className="text-[13px] font-medium text-skepal-text mb-2">
+              {t.plugins.essential.title}
+            </h4>
+            <ul className="space-y-2 mb-2">
+              {t.plugins.essential.items.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="flex gap-3 items-start text-[13px] text-skepal-text-secondary"
+                >
+                  <span className="text-skepal-accent mt-0.5">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-[12px] text-skepal-text-secondary italic pl-5">
+              {t.plugins.essential.note}
+            </p>
+          </div>
+
+          {/* Browser Automation */}
+          <div className="mb-5">
+            <h4 className="text-[13px] font-medium text-skepal-text mb-2">
+              {t.plugins.browser.title}
+            </h4>
+            <ul className="space-y-2">
+              {t.plugins.browser.items.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="flex gap-3 items-start text-[13px] text-skepal-text-secondary"
+                >
+                  <span className="text-skepal-accent mt-0.5">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Additional Plugins */}
+          <div className="mb-5">
+            <h4 className="text-[13px] font-medium text-skepal-text mb-2">
+              {t.plugins.additional.title}
+            </h4>
+            <div className="space-y-3">
+              {t.plugins.additional.categories.map((category, idx) => (
+                <div key={idx}>
+                  <p className="text-[12px] text-skepal-text mb-1">
+                    {category.name}:
+                  </p>
+                  <p className="text-[12px] text-skepal-text-secondary pl-5">
+                    {category.items.join(", ")}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Commands */}
+          <div className="mb-5">
+            <h4 className="text-[13px] font-medium text-skepal-text mb-2">
+              {t.plugins.commands.title}
+            </h4>
+            <ul className="space-y-2">
+              {t.plugins.commands.items.map((item, idx) => (
+                <li
+                  key={idx}
+                  className="text-[12px] font-mono text-skepal-text-secondary bg-skepal-elevated px-3 py-1.5 rounded border border-skepal-border"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         <div className="pt-4 border-t border-skepal-border">
           <h3 className="text-[14px] font-semibold text-skepal-text mb-3">
