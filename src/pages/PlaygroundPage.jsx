@@ -130,31 +130,31 @@ export default function PlaygroundPage() {
                         {selected.meta.brief.request && (
                           <div>
                             <div className="text-[11px] text-skepal-text-tertiary mb-1">Request</div>
-                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.request}</div>
+                            <pre className="text-[12px] text-skepal-text-secondary whitespace-pre-wrap font-mono leading-relaxed bg-skepal-bg/50 border border-skepal-border rounded p-3 overflow-x-auto">{selected.meta.brief.request}</pre>
                           </div>
                         )}
                         {selected.meta.brief.mood && (
                           <div>
                             <div className="text-[11px] text-skepal-text-tertiary mb-1">Mood</div>
-                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.mood}</div>
+                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.mood}</div>
                           </div>
                         )}
                         {selected.meta.brief.audience && (
                           <div>
                             <div className="text-[11px] text-skepal-text-tertiary mb-1">Audience</div>
-                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.audience}</div>
+                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.audience}</div>
                           </div>
                         )}
                         {selected.meta.brief.references && (
                           <div>
                             <div className="text-[11px] text-skepal-text-tertiary mb-1">References</div>
-                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.references}</div>
+                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.references}</div>
                           </div>
                         )}
                         {selected.meta.brief.constraints && (
                           <div>
                             <div className="text-[11px] text-skepal-text-tertiary mb-1">Constraints</div>
-                            <div className="text-[13px] text-skepal-text-secondary">{selected.meta.brief.constraints}</div>
+                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.constraints}</div>
                           </div>
                         )}
                       </div>
