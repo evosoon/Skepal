@@ -40,25 +40,34 @@ export default function Home() {
       </div>
 
       <div className="bg-skepal-surface border border-skepal-border rounded-lg p-8 mb-8">
-        <h2 className="text-[15px] font-semibold text-skepal-text mb-6">
+        <h2 className="text-[15px] font-semibold text-skepal-text mb-2">
           How it works
         </h2>
+        <p className="text-[13px] text-skepal-text-secondary mb-6">
+          Powered by the <span className="text-skepal-accent font-medium">frontend-design</span> plugin
+        </p>
         <div className="space-y-4">
           {[
-            "Describe your design idea in Claude Code",
-            "Claude interviews you about style and context",
-            "Discuss color palettes (or use Huemint)",
-            "Claude generates the component and adds it to Skepal",
-          ].map((step, idx) => (
+            { cmd: "/frontend-design", desc: "Launch the design workflow — the plugin guides you through style, color, and layout decisions" },
+            { cmd: "Generate", desc: "Production-grade component code is created and added to Skepal Playground" },
+            { cmd: "Iterate", desc: "Provide feedback in conversation, Claude refines the design visually with Playwright" },
+            { cmd: "Promote", desc: "When satisfied, promote to the permanent component library" },
+          ].map(({ cmd, desc }, idx) => (
             <div key={idx} className="flex gap-4 items-start">
               <div className="w-6 h-6 rounded-md bg-skepal-elevated border border-skepal-border flex items-center justify-center text-[13px] text-skepal-text-secondary font-medium shrink-0">
                 {idx + 1}
               </div>
-              <div className="text-[14px] text-skepal-text-secondary pt-0.5">
-                {step}
+              <div className="pt-0.5">
+                <span className="text-[14px] text-skepal-text font-medium">{cmd}</span>
+                <span className="text-[14px] text-skepal-text-secondary"> — {desc}</span>
               </div>
             </div>
           ))}
+        </div>
+        <div className="mt-6 pt-4 border-t border-skepal-border">
+          <p className="text-[12px] text-skepal-text-secondary">
+            Also available: <span className="font-mono text-skepal-accent">/design</span> (quick styling) · <span className="font-mono text-skepal-accent">/ui</span> (design-system aware) · <span className="font-mono text-skepal-accent">/layout</span> (responsive structures)
+          </p>
         </div>
       </div>
 
