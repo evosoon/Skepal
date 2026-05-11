@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import playgroundRegistry, { getAllStatuses } from "../lib/playgroundRegistry";
 import TagBadge from "../components/buttons/TagBadge";
 import Dropdown from "../components/buttons/Dropdown";
@@ -122,43 +122,7 @@ export default function PlaygroundPage() {
 
                   {/* Design brief */}
                   {selected.meta.brief && (
-                    <details className="bg-skepal-surface border border-skepal-border rounded-lg mb-4">
-                      <summary className="cursor-pointer px-4 py-3 text-[13px] text-skepal-text-secondary hover:text-skepal-text font-medium">
-                        Design Brief
-                      </summary>
-                      <div className="px-4 pb-4 space-y-2">
-                        {selected.meta.brief.request && (
-                          <div>
-                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Request</div>
-                            <pre className="text-[12px] text-skepal-text-secondary whitespace-pre-wrap font-mono leading-relaxed bg-skepal-bg/50 border border-skepal-border rounded p-3 overflow-x-auto">{selected.meta.brief.request}</pre>
-                          </div>
-                        )}
-                        {selected.meta.brief.mood && (
-                          <div>
-                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Mood</div>
-                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.mood}</div>
-                          </div>
-                        )}
-                        {selected.meta.brief.audience && (
-                          <div>
-                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Audience</div>
-                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.audience}</div>
-                          </div>
-                        )}
-                        {selected.meta.brief.references && (
-                          <div>
-                            <div className="text-[11px] text-skepal-text-tertiary mb-1">References</div>
-                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.references}</div>
-                          </div>
-                        )}
-                        {selected.meta.brief.constraints && (
-                          <div>
-                            <div className="text-[11px] text-skepal-text-tertiary mb-1">Constraints</div>
-                            <div className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{selected.meta.brief.constraints}</div>
-                          </div>
-                        )}
-                      </div>
-                    </details>
+                    <BriefSection brief={selected.meta.brief} />
                   )}
 
                   {selected.meta.style && (
@@ -204,5 +168,78 @@ export default function PlaygroundPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function formatBrief(brief) {
+  const parts = [];
+  if (brief.request) parts.push(`# Design Request\n\n${brief.request}`);
+  if (brief.mood) parts.push(`# Mood\n\n${brief.mood}`);
+  if (brief.audience) parts.push(`# Audience\n\n${brief.audience}`);
+  if (brief.references) parts.push(`# References\n\n${brief.references}`);
+  if (brief.constraints) parts.push(`# Constraints\n\n${brief.constraints}`);
+  return parts.join("\n\n---\n\n");
+}
+
+function BriefSection({ brief }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(formatBrief(brief));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Copy failed", err);
+    }
+  }, [brief]);
+
+  return (
+    <details className="mb-6 bg-skepal-surface border border-skepal-border rounded-lg overflow-hidden">
+      <summary className="px-4 py-3 cursor-pointer text-[13px] font-medium text-skepal-text hover:bg-skepal-elevated flex items-center justify-between gap-2">
+        <span>Design Brief</span>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="text-[11px] px-2 py-1 rounded border border-skepal-border bg-skepal-bg text-skepal-text-secondary hover:text-skepal-text hover:border-skepal-border-strong transition-colors"
+        >
+          {copied ? "Copied!" : "Copy as prompt"}
+        </button>
+      </summary>
+      <div className="px-4 py-3 border-t border-skepal-border space-y-4">
+        {brief.request && (
+          <div>
+            <div className="text-[11px] uppercase tracking-wide text-skepal-text-tertiary mb-2">Request</div>
+            <pre className="text-[12px] leading-[1.7] text-skepal-text-secondary font-mono whitespace-pre-wrap">{brief.request}</pre>
+          </div>
+        )}
+        {brief.mood && (
+          <div>
+            <div className="text-[11px] uppercase tracking-wide text-skepal-text-tertiary mb-1">Mood</div>
+            <p className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{brief.mood}</p>
+          </div>
+        )}
+        {brief.audience && (
+          <div>
+            <div className="text-[11px] uppercase tracking-wide text-skepal-text-tertiary mb-1">Audience</div>
+            <p className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{brief.audience}</p>
+          </div>
+        )}
+        {brief.references && (
+          <div>
+            <div className="text-[11px] uppercase tracking-wide text-skepal-text-tertiary mb-1">References</div>
+            <p className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{brief.references}</p>
+          </div>
+        )}
+        {brief.constraints && (
+          <div>
+            <div className="text-[11px] uppercase tracking-wide text-skepal-text-tertiary mb-1">Constraints</div>
+            <p className="text-[13px] text-skepal-text-secondary whitespace-pre-wrap">{brief.constraints}</p>
+          </div>
+        )}
+      </div>
+    </details>
   );
 }
