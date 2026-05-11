@@ -5,68 +5,61 @@ export const meta = {
   tags: ['finance', 'stock', 'dashboard', 'dark-theme', 'glass-morphism', 'data-dense'],
   status: 'draft',
   brief: {
-    request: `金融个股详情页设计系统。要求：暗色优先、高信息密度、专业金融感。涵盖报价展示、K线图表、资金流向、AI评估、新闻快讯等模块。
+    request: `Vane 设计语言 — 创作风格指南
 
-设计提示词（可直接复制给其他项目）：
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-请按照以下设计规范生成组件：
+一、设计理念
 
-【色彩系统】
-- 背景4级：bg-0(#0E1117) → bg-1(#161B26) → bg-2(#1C2230) → bg-3(#232D3F)
-- 文字4级：text-1(#F0F4FF) → text-2(#9AABCA) → text-3(#6678A0) → text-4(#3D4F6E)
-- 边框：border-1(#2A3347)、border-2(#374155)
-- 涨跌语义：涨=#E5334B(rise)、跌=#0DB070(fall)；浅色变体用 12% opacity
-- 品牌色：blue(#2563EB)、orange(#D97706)、purple(#7C3AED)、green(#059669)
-- 阴影：ss(0 1px 3px rgba(0,0,0,.2))、sm(0 4px 16px rgba(0,0,0,.3))
+「让数据自己说话」— 界面是数据的画框，不是主角。所有视觉决策服务于一个目标：让用户在最短时间内捕获关键信息，同时感受到工具的专业与可靠。
 
-【排版】
-- 字体：Sans=DM Sans + Noto Sans SC；Mono=JetBrains Mono
-- 基础字号14px；自定义：2xs(9px)、xs(10px)、sm(11px)
-- 所有数字用 font-mono tabular-nums；价格用 font-bold
-- 正数前缀+号，涨=text-rise，跌=text-fall
+二、核心原则
 
-【圆角与间距】
-- 圆角：sm(8px)、md(12px)、lg(16px)；Tab按钮内部6px
-- 卡片内边距：header=px-3 py-2，body=px-3 py-[10px]
-- 组件间距：gap-4(16px)；组内：gap-3(12px)；紧凑：gap-1.5(6px)
+1. 暗色即画布
+   深色背景不是"暗黑模式"，而是设计的起点。就像天文台的暗室让星光更清晰，深色画布让数据色彩更纯粹、层次更分明。背景应该"消失"，让内容浮现。
 
-【卡片组件】
-- 容器用半透明背景 rgba(22,27,38,0.3)，圆角12px
-- CardHeader：flex justify-between，标题=11px font-semibold，图标=12px
-- 可选几何装饰：网格纹理/对角线/点阵，opacity-[0.04]，pointer-events-none
-- 装饰用 mask-image radial-gradient 做渐隐
+2. 层次即呼吸
+   用 4 级背景色构建空间纵深（页面 → 卡片 → 交互态 → 嵌套），用 4 级文字色建立阅读节奏（标题 → 正文 → 辅助 → 占位）。层次不靠线条分割，靠色彩明度的微妙递进。
 
-【Tabs标签页】
-- 容器：bg-bg-2, p-[2px], rounded-[8px]
-- 按钮：compact=px-2 py-[3px] text-xs；normal=px-[9px] py-[3px] text-sm
-- 激活态：bg-bg-1 text-text-1 shadow-ss font-semibold
-- 非激活：text-text-3 hover:text-text-1
+3. 语义即直觉
+   颜色承载含义而非装饰。涨跌用固定的红绿对，品牌色各有职责（蓝=中性/链接，橙=警告/震荡，紫=AI/特殊）。用户不需要读图例，色彩本身就是信息。
 
-【Badge徽标】
-- 涨跌幅：px-[6px] py-[1px] rounded font-mono text-xs font-bold
-- 涨=bg-rise/12% + text-rise；跌=bg-fall/12% + text-fall
-- 新闻标签：px-1.5 py-px rounded text-[10px] font-medium
+4. 密度即效率
+   信息密度高但不拥挤。秘诀在于：紧凑的字号（11-14px 为主）、精确的间距节奏（6/12/16px 三档）、等宽数字对齐。留白不是空，是让眼睛知道"这组数据到此为止"。
 
-【动效】
-- 标准过渡：160ms cubic-bezier(.25,.1,.25,1)
-- 入场动画：scale(0.97)+translateY(6px)→normal，0.35s
-- 交错延迟：每项+50ms
-- 价格闪烁：背景色 0.6s ease-out 渐隐
+5. 克制即高级
+   动效存在但不抢戏 — 160ms 的过渡让交互有反馈但不拖沓，0.35s 的入场让元素"生长"而非"弹跳"。玻璃态只用在浮动层，几何装饰只有 4% 透明度。每一个视觉效果都应该让用户感觉"恰到好处"而非"哇好炫"。
 
-【玻璃态】
-- background: rgba(22,27,38,0.72)
-- backdrop-filter: blur(16px)
-- border: 1px solid rgba(255,255,255,0.06)
+6. 半透明即空间
+   卡片不用实色背景，用低透明度的深色。这让界面有"透气感"，暗示背后还有层次。配合微妙的 hover 态变化，整个界面像是有深度的空间而非平面贴纸。
 
-【图表色值】
-- K线：涨=#E5334B 跌=#0DB070
-- 均线：MA5=#3370FF MA10=#FF9500 MA20=#8B5CF6
-- 网格/轴线：#2A334766
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-    mood: '专业金融感、暗色优先、高信息密度但不拥挤、克制动效、玻璃态点缀',
-    audience: '金融产品用户、量化交易者、个人投资者',
-    references: 'Vane 项目个股页面 (vane-web/src/app/[symbol]/page.tsx)，参考 Linear 的暗色质感 + 金融数据密度',
-    constraints: '涨红跌绿（中国市场惯例）；数字必须等宽字体；卡片用半透明背景而非实色；动效不超过0.35s；移动端单列自适应',
+三、视觉节奏
+
+- 大节奏：页面分为"英雄区"（图表+报价，视觉重心）和"数据区"（卡片网格，信息密集）
+- 中节奏：卡片之间用 16px 间距呼吸，卡片内部用 12px 分组
+- 小节奏：数据项之间 6px，label 和 value 紧贴（1.5px gap），形成"词组"感
+
+四、装饰哲学
+
+装饰是"被发现的"而非"被展示的"：
+- 几何纹理（网格/斜线/点阵）只在卡片角落以 4% 透明度存在
+- 氛围渐变用 radial-gradient 暗示情绪（看多/看空），但不干扰阅读
+- 噪点纹理 2.5% 透明度，给纯色背景一丝"质感"
+- 所有装饰都用 mask-image 做边缘渐隐，绝不硬切
+
+五、动效哲学
+
+- 入场：从"略小+略低"到"正常"（scale 0.97 + translateY 6px），模拟"浮现"
+- 交错：多个元素依次入场，每项延迟 50ms，形成"瀑布"节奏
+- 反馈：价格变动时背景闪烁（涨红/跌绿 25% opacity → 透明），0.6s 渐隐
+- 过渡：所有状态切换 160ms，曲线用 ease-out 变体，"快起慢停"
+
+六、适用场景
+
+此风格适合：数据密集型仪表盘、金融终端、监控面板、分析工具、专业级 SaaS
+不适合：消费级产品、内容阅读类、儿童/娱乐类、需要大量留白的品牌站`,
+    mood: '专业克制、暗色纵深、数据驱动、高密度呼吸感、工具级信赖感',
+    audience: '需要高效获取信息的专业用户 — 交易者、分析师、工程师、数据从业者',
+    references: '视觉气质参考：Bloomberg Terminal 的信息密度 + Linear 的暗色质感 + Figma 的层次克制 + 天文台暗室的"让光自己说话"',
+    constraints: '语义色不可随意替换（红涨绿跌是领域共识）；数字必须等宽对齐；装饰永远不能干扰数据阅读；动效总时长不超过 0.4s；移动端优先保证数据可读性而非视觉效果',
   },
   style: {
     mood: 'professional, data-dense, premium financial',
