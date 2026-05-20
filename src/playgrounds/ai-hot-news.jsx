@@ -10,7 +10,87 @@ export const meta = {
     request: 'AI 热点新闻聚合面板，支持黑白主题，主题色 Claude 橙，Quiet Density 风格，顶部导航栏 + Hero 焦点区 + 复杂布局',
     mood: '素净克制、信息密集、呼吸感、工具级专业',
     audience: 'AI 从业者、研究者、技术管理者',
-    references: 'Quiet Density 设计规范 — 密而不燥，素而不寡',
+    references: `# UI Style: Quiet Density
+
+为信息密集型界面设计的视觉风格。密而不燥，素而不寡。
+
+以下规则适用于所有前端 UI 实现。冲突时，靠前的规则优先。
+
+---
+
+## 色彩
+
+中性色用 4 级背景（Ground/Surface/Sunken/Muted）+ 4 级文字（Primary/Secondary/Tertiary/Quaternary）+ 2 级分割线构建层次。容器之间靠色差区分，不靠边框。
+
+语义色（Positive/Negative/Accent/Warning/Info/Danger）只用在数据和状态上，不用在容器 chrome 上。每种语义色有一个 \`-light\` 衬底变体（亮色为低饱和实底，暗色为 \`rgba(语义色, 12-18%)\`）。通过 \`color-mix\` 或 opacity 派生透明变体，不硬编码中间色值。
+
+亮/暗模式通过 CSS class 切换，翻转 CSS 变量。语义色色相不变，背景/阴影/毛玻璃参数变。
+
+## 排版
+
+根字号 14px。字体栈：几何无衬线（如 DM Sans）→ CJK 无衬线（如 Noto Sans SC）→ system-ui。等宽体（如 JetBrains Mono）用于所有数值和代码。
+
+字号梯度：2xs=9px / xs=10px / sm=11px / base=14px / lg=16px / hero=28-42px。
+
+所有数值用 \`font-mono tabular-nums\`。全局 \`antialiased\`。
+
+## 空间
+
+圆角三级：sm=8px（Badge/Pill/小按钮）、md=12px（Card/Dialog）、lg=16px（Hero/浮动导航）。小组件圆角不超过外层容器。
+
+容器内边距：水平 12px、垂直 8-10px。同级区块间距 12-20px。数据项内部间距 4-10px。页面边距：移动端 16px、桌面端 24px。
+
+## 阴影
+
+三级：微（卡片默认）、轻（悬浮面板）、中（Modal）。亮色最重 \`rgba(0,0,0,0.12)\`，暗色最重 \`rgba(0,0,0,0.4)\`。多数卡片只用最轻一级。Active 项可加品牌色光晕投影。
+
+## 容器
+
+- **Surface Card**：实底 Surface 色 + 最轻阴影，无边框或极淡边框。默认容器。
+- **Section**：\`rgba(Surface, 0.4)\`，hover 加深至 0.55，无阴影。用于页面内逻辑分组。
+- **Glass**：\`rgba(Surface, 0.5-0.7)\` + \`backdrop-blur(12px亮/16px暗)\` + 极淡边框。用于浮层（导航栏、侧边栏、弹窗）。
+
+Card 结构统一为 Header（底部分割线）+ Body。
+
+## 控件
+
+**按钮**三种：Primary（品牌色实底白字）、Outline（透明+细边框）、Ghost（全透明 hover 显背景）。统一 \`text-xs font-semibold\` + 紧凑 padding。
+
+**Tabs**：Pill 风格，Sunken 色容器 2px 内边距，Active 用 Surface 色 + 最轻阴影浮起，Inactive 全透明。
+
+**Badge**：小型化（9-11px），pill 圆角，背景用语义色 light 变体。
+
+**导航**：底部居中浮动 Dock，Glass 容器 + 大圆角，Active 项品牌色实底 + 白字 + 光晕。
+
+## 动效
+
+交互反馈：\`cubic-bezier(.25,.1,.25,1)\` 120-200ms，纯属性过渡（颜色/透明度/阴影），不用 transform。
+
+入场动画：\`scale(0.97) translateY(6px)\` → 正常，300-400ms \`cubic-bezier(.22,1,.36,1)\`。同级元素 50ms 步进错开，6 个内收敛。
+
+数值闪烁：语义色 25% 背景闪现后 0.6s 衰退。进度条/条形图宽度变化 500ms 缓出。
+
+氛围动效：8-15s 极慢周期，opacity 变化 < 0.1，仅用于背景层。
+
+## 装饰
+
+氛围渐变：径向渐变叠加在 Hero 区域，色取当前状态语义色，透明度 3-4%，通过 \`::before\` 实现。
+
+几何纹理：噪声/网格/对角线三选一，透明度 2-4%，通过 \`::after\` + \`mask-image\` 边缘渐隐。用户不应"看到"纹理，只"感觉到"区域比旁边丰富。
+
+毛玻璃：所有浮层用 \`backdrop-filter: blur\`，配合半透明背景和极淡边框。
+
+## 加载态
+
+Skeleton 用低对比度底色 + shimmer 扫光（1.5s 循环）。复合 Skeleton 精确模仿真实组件几何布局。Skeleton → 内容用同位叠加 + opacity 交叉淡化（300ms），无高度跳变。视口外区块用 IntersectionObserver 触发加载 + 入场动画。
+
+## 滚动条
+
+4px 窄轨，透明轨道，thumb 用次分割线色。长列表面板可宽至 6px + hover 变色。
+
+## 响应式
+
+移动端单列 + 底部 Dock。~1024px 双栏网格。~1280px+ 侧边栏常驻。侧边栏折叠态 ~36px 窄条，展开时推挤内容不覆盖。页面最大宽度 1400-1800px。`,
     constraints: '必须支持亮/暗双主题；主题色为 Claude 橙；容器靠色差区分不靠边框；数值等宽对齐',
   },
   style: {
