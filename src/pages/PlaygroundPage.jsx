@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import playgroundRegistry, { getAllStatuses } from "../lib/playgroundRegistry";
 import TagBadge from "../components/buttons/TagBadge";
 import Dropdown from "../components/buttons/Dropdown";
@@ -7,9 +8,108 @@ import PageHeader from "../components/typography/PageHeader";
 import PreviewCanvas from "../components/layout/PreviewCanvas";
 import ColorSwatch from "../components/layout/ColorSwatch";
 
+const CORNER_OFFSET = 16;
+const SNAP_THRESHOLD = 0.5;
+
+function DraggableExitButton({ onClick }) {
+  const btnRef = useRef(null);
+  const [corner, setCorner] = useState("bottom-right");
+  const dragState = useRef(null);
+
+  const getCornerStyle = (c) => {
+    const s = { position: "fixed", zIndex: 10000 };
+    if (c.includes("top")) s.top = CORNER_OFFSET;
+    else s.bottom = CORNER_OFFSET;
+    if (c.includes("right")) s.right = CORNER_OFFSET;
+    else s.left = CORNER_OFFSET;
+    return s;
+  };
+
+  const handlePointerDown = (e) => {
+    e.preventDefault();
+    const rect = btnRef.current.getBoundingClientRect();
+    dragState.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      originX: rect.left,
+      originY: rect.top,
+      dragging: false,
+    };
+    btnRef.current.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e) => {
+    const ds = dragState.current;
+    if (!ds) return;
+    const dx = e.clientX - ds.startX;
+    const dy = e.clientY - ds.startY;
+    if (!ds.dragging && Math.abs(dx) + Math.abs(dy) < 4) return;
+    ds.dragging = true;
+    const el = btnRef.current;
+    el.style.position = "fixed";
+    el.style.left = `${ds.originX + dx}px`;
+    el.style.top = `${ds.originY + dy}px`;
+    el.style.right = "auto";
+    el.style.bottom = "auto";
+    el.style.transition = "none";
+  };
+
+  const handlePointerUp = (e) => {
+    const ds = dragState.current;
+    dragState.current = null;
+    if (!ds) return;
+    if (!ds.dragging) {
+      onClick();
+      return;
+    }
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const cx = e.clientX / vw;
+    const cy = e.clientY / vh;
+    const newCorner =
+      cy < SNAP_THRESHOLD
+        ? cx < SNAP_THRESHOLD ? "top-left" : "top-right"
+        : cx < SNAP_THRESHOLD ? "bottom-left" : "bottom-right";
+    setCorner(newCorner);
+    const el = btnRef.current;
+    el.style.transition = "";
+    el.style.left = "";
+    el.style.top = "";
+    el.style.right = "";
+    el.style.bottom = "";
+  };
+
+  return (
+    <button
+      ref={btnRef}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      style={getCornerStyle(corner)}
+      className="p-2.5 rounded-xl bg-white/10 text-white/50 hover:text-white hover:bg-white/20 transition-[background-color,color,opacity] duration-200 cursor-grab active:cursor-grabbing backdrop-blur-sm select-none touch-none"
+      title="Exit fullscreen (Esc) · Drag to reposition"
+    >
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="6 2 2 2 2 6" />
+        <polyline points="10 14 14 14 14 10" />
+        <line x1="2" y1="2" x2="6.5" y2="6.5" />
+        <line x1="14" y1="14" x2="9.5" y2="9.5" />
+      </svg>
+    </button>
+  );
+}
+
 export default function PlaygroundPage() {
   const [selectedId, setSelectedId] = useState(null);
   const [statusFilter, setStatusFilter] = useState("All");
+  const [fullscreen, setFullscreen] = useState(false);
+
+  useEffect(() => {
+    if (!fullscreen) return;
+    const onKey = (e) => { if (e.key === "Escape") setFullscreen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [fullscreen]);
 
   const statuses = getAllStatuses();
 
@@ -153,9 +253,23 @@ export default function PlaygroundPage() {
                   )}
                 </div>
 
-                <PreviewCanvas>
-                  <selected.component />
-                </PreviewCanvas>
+                <div className="relative">
+                  <button
+                    onClick={() => setFullscreen(true)}
+                    className="absolute top-3 right-3 z-10 p-1.5 rounded-md bg-black/40 text-skepal-text-tertiary hover:text-skepal-text hover:bg-black/60 transition-colors"
+                    title="Fullscreen preview"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="10 2 14 2 14 6" />
+                      <polyline points="6 14 2 14 2 10" />
+                      <line x1="14" y1="2" x2="9.5" y2="6.5" />
+                      <line x1="2" y1="14" x2="6.5" y2="9.5" />
+                    </svg>
+                  </button>
+                  <PreviewCanvas>
+                    <selected.component />
+                  </PreviewCanvas>
+                </div>
               </div>
             ) : (
               <div className="h-[400px] flex items-center justify-center">
@@ -166,6 +280,17 @@ export default function PlaygroundPage() {
             )}
           </div>
         </div>
+      )}
+
+      {fullscreen && selected && createPortal(
+        <div
+          className="fixed inset-0 z-[9999] bg-[#09090b] overflow-auto"
+          style={{ isolation: "isolate" }}
+        >
+          <DraggableExitButton onClick={() => setFullscreen(false)} />
+          <selected.component />
+        </div>,
+        document.body
       )}
     </div>
   );
