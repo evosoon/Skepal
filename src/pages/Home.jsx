@@ -71,6 +71,53 @@ export default function Home() {
         </div>
       </div>
 
+      <section className="bg-skepal-surface border border-skepal-border rounded-lg p-8 mb-8" aria-labelledby="apple-design-title">
+        <div className="flex items-start justify-between gap-6 mb-6">
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-skepal-accent mb-2">
+              Interaction foundation
+            </div>
+            <h2 id="apple-design-title" className="text-[15px] font-semibold text-skepal-text mb-2">
+              Apple Design Skill
+            </h2>
+            <p className="max-w-[620px] text-[13px] leading-6 text-skepal-text-secondary">
+              Apple&apos;s principles for fluid web interaction: immediate feedback, direct manipulation,
+              interruptible motion, spring behavior, spatial continuity, and accessible transitions.
+              Skepal pairs these behaviors with its Linear-inspired visual language.
+            </p>
+          </div>
+          <a
+            href="https://github.com/emilkowalski/skills/blob/main/skills/apple-design/SKILL.md"
+            target="_blank"
+            rel="noreferrer"
+            className="shrink-0 text-[12px] font-medium text-skepal-text-secondary hover:text-skepal-text"
+          >
+            Official skill ↗
+          </a>
+        </div>
+
+        <div className="rounded-md border border-skepal-border bg-skepal-bg px-4 py-3">
+          <div className="mb-2 text-[10px] font-medium uppercase tracking-[0.1em] text-skepal-text-tertiary">
+            Install
+          </div>
+          <code className="block overflow-x-auto whitespace-nowrap font-mono text-[12px] text-skepal-text">
+            npx skills@latest add emilkowalski/skills
+          </code>
+        </div>
+
+        <div className="mt-4 text-[12px] text-skepal-text-tertiary">
+          Source:{' '}
+          <a
+            href="https://github.com/emilkowalski/skills"
+            target="_blank"
+            rel="noreferrer"
+            className="text-skepal-text-secondary hover:text-skepal-text"
+          >
+            emilkowalski/skills ↗
+          </a>
+        </div>
+      </section>
+
       <UsageGuide />
     </div>
   );

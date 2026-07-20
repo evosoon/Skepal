@@ -125,13 +125,24 @@ Files are automatically discovered and displayed in the Playground page.
 
 ## Design Philosophy
 
-Skepal follows Linear's design principles:
+Skepal pairs **Linear-inspired visual discipline** with **Apple-inspired interaction behavior**.
+
+Visual language:
 
 - **Extreme Minimalism** — Pure black backgrounds, subtle borders, no visual noise
 - **Precise Typography** — Consistent font sizes (13px, 15px, 20px, 32px)
 - **Generous Spacing** — Large gaps and padding for breathing room
 - **Restrained Color** — Purple accent used sparingly, mostly grayscale
 - **Content-First** — Let the work speak, not the interface
+
+Interaction language:
+
+- **Immediate Feedback** — Respond on press and keep feedback continuous during manipulation
+- **Interruptible Motion** — Moving UI can be redirected without waiting for an animation to finish
+- **Physical Continuity** — Use springs, velocity handoff, and consistent spatial paths where interaction warrants them
+- **Accessible by Default** — Respect reduced motion, reduced transparency, and increased contrast
+
+The combination is deliberate: Linear defines how the interface is composed; `apple-design` defines how it responds. Apple interaction principles are not an instruction to imitate Apple brand visuals or add decorative glass and bounce.
 
 ## Color System
 

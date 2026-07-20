@@ -6,12 +6,32 @@ Skepal (Sketch + Palette) is a design system and component library for exploring
 ## Design Workflow
 When working on design-related tasks in this project, follow this process:
 
+### Design direction: Linear visuals × Apple interactions
+
+Skepal combines two complementary preferences:
+
+- **Visual language — Linear-inspired.** Favor precise typography, restrained color, clear density, subtle borders, purposeful whitespace, and content-first hierarchy. Use Linear as a set of visual principles, not as a page to copy.
+- **Interaction language — Apple-inspired.** Use `apple-design` for immediate press feedback, direct manipulation, interruptible transitions, spatial continuity, spring behavior, and accessible motion.
+
+Design them together: establish the static hierarchy with the Linear visual language, then make every touched or moving element behave according to `apple-design`. Apple interaction principles do **not** imply Apple brand styling, and glass, blur, bounce, or animation must earn a functional role rather than become decoration.
+
+For every interactive playground, review both states and transitions: a still screenshot should feel precise and restrained; using it should feel responsive, physical, and interruptible.
+
+Execution contract:
+
+- Before coding an interactive playground, read `.claude/skills/apple-design/SKILL.md`; do not infer its behavior from the name alone.
+- Keep the visual system neutral with one restrained accent unless the brief explicitly asks otherwise. Avoid decorative gradients, excessive pills, and stacked glass surfaces.
+- Pressable controls need immediate press feedback. Timed or animated flows must support cancel/restart. Gesture-driven controls must track 1:1 and settle from their live position and velocity.
+- Verify the result twice: screenshot the static hierarchy, then exercise the primary interaction including interruption and reduced-motion behavior.
+
 ### 1. Generate (via frontend-design plugin)
 Use the official `frontend-design` plugin to handle design generation:
 - `/frontend-design` — Full guided workflow (style interview → palette → generation)
 - `/design` — Quick styling for existing components
 - `/ui` — Design-system aware component generation
 - `/layout` — Responsive page structures
+
+For any interactive playground, also invoke `/apple-design` when available. Apply its full gesture and spring guidance when the UI includes sheets, drawers, drag/swipe, or other direct manipulation.
 
 The plugin handles style interviews, color selection, and code generation automatically.
 Output files go to `src/playgrounds/` with kebab-case naming.
